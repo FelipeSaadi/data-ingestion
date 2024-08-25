@@ -1,5 +1,5 @@
 # Como rodar
-Abra a pasta src/data_pipeline no terminal
+Abra a pasta data_pipeline no terminal
 
 Crie o .env e troque para os dados corretos
 ```
