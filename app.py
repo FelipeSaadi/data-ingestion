@@ -14,6 +14,10 @@ create_bucket_if_not_exists("raw-data")
 # Executar o script SQL para criar a tabela
 execute_sql_script('sql/create_table.sql')
 
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({"error": "Endpoint not found"}), 404
+
 @app.route('/ingestion', methods=['POST'])
 def ingestion():
     data = request.get_json()
@@ -50,17 +54,14 @@ def receive_data():
     if not json or len(json) < 1:
         return jsonify({"error": "Invalid data"}), 400
 
-    if not data or len(data) < 1:
-        return jsonify({"error": "Invalid data"}), 400
-
-    result = validate_data(data)
+    result = validate_data(json)
     print(result)
     
     if not result:
         return jsonify({"error": "Wrong data type"}), 400
 
     # Processar e salvar dados
-    filename = process_data(data)
+    filename = process_data(json)
     upload_file("raw-data", filename)
 
     # Ler arquivo Parquet do MinIO
@@ -73,6 +74,10 @@ def receive_data():
     insert_dataframe(client, 'working_data', df_prepared)
 
     return jsonify({"message": "Data successfully received, stored and processed"}), 200
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    return jsonify({"error": "An unexpected error occurred!"}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

@@ -6,19 +6,16 @@ Crie o .env e troque para os dados corretos
 cp .env.example .env
 ```
 
-Rode o comando:
+Rode o comando para iniciar a infra:
 ```
-docker-compose up
-```
-
-Instale as dependências
-```
-poetry install
+make up
 ```
 
-Rode o App
+Abra um novo terminal
+
+Rode o comando para rodar o projeto:
 ```
-poetry run python app.py
+make all
 ```
 
 Teste os endpoints:
