@@ -52,6 +52,6 @@ Content-Type: application/json
     "boxOffice": "$28.3 million",
     "production": "Columbia Pictures",
     "website": "http://www.warnerbros.com/movies/shawshank-redemption"
-    },
+    }
 ]
 ```
